@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 require('dotenv').config();
 
+console.log("hey we started the program");
 
 const app = express();
 
