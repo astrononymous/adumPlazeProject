@@ -2,9 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const PubSubHubbub = require('pubsubhubbub');
+const parser = require('rss-parser');
 require('dotenv').config();
-
-console.log("Hey, we started the program");
 
 const app = express();
 
@@ -53,14 +52,26 @@ pubsub.listen(process.env.HUB_PORT, () => {
     console.log(`PubSubHubbub hub server listening on port ${process.env.HUB_PORT}`);
 });
 
-// Subscribe to the YouTube channel's RSS feed
-const feedUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UChlgI3UHCOnwUGzWzbJ3H5w';
-pubsub.subscribe('superfeedr', feedUrl, (err) => {
-    if (err) {
-        console.error(`Error subscribing to feed: ${err}`);
-        return;
-    }
-    console.log(`Subscribed to feed: ${feedUrl}`);
+// Set up the channel ID's to subscribe to
+const channelIds = ['UCq6VFHwMzcMXbuKyG7SQYIg'];
+
+// Subscribe to the YouTube channel's RSS feed for each channel ID
+channelIds.forEach((channelId) => {
+    const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    parser.parseURL(feedUrl, (err, feed) => {
+        if (err) {
+            console.error(`Error parsing feed ${feedUrl}: ${err}`);
+            return;
+        }
+        console.log(`Feed ${feedUrl} is valid and can be subscribed to`);
+        pubsub.subscribe('superfeedr', feedUrl, (err) => {
+            if (err) {
+                console.error(`Error subscribing to feed ${feedUrl}: ${err}`);
+                return;
+            }
+            console.log(`Subscribed to feed: ${feedUrl}`);
+        });
+    });
 });
 
 // Handle feed updates
@@ -87,4 +98,12 @@ pubsub.on('feed', (data) => {
     } catch (error) {
         console.error('Error handling feed update:', error);
     }
+});
+
+app.on('error', (err) => {
+    console.error('Server error:', err);
+});
+
+pubsub.on('error', (err) => {
+    console.error('PubSubHubbub error:', err);
 });
