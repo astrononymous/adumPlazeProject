@@ -6,6 +6,8 @@ const Parser = require('rss-parser');
 const parser = new Parser();
 require('dotenv').config();
 
+console.log("okay we have started the app");
+
 const app = express();
 
 // Configure the port that the web server will listen on
