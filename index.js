@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const PubSubHubbub = require('pubsubhubbub');
-const parser = require('rss-parser');
+const Parser = require('rss-parser');
+const parser = new Parser();
 require('dotenv').config();
 
 const app = express();
