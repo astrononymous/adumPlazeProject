@@ -1,0 +1,15 @@
+# Node.js modules
+node_modules/
+
+# Environment variables
+.env
+
+# Package lockfile
+package-lock.json
+
+# Mac files
+.DS_Store
+
+# Editor files
+.vscode/
+*.swp

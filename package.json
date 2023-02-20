@@ -1,0 +1,14 @@
+{
+  "name": "adumplazeproject",
+  "version": "1.0.0",
+  "description": "telegram bot posts youtube updates prototype",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  }
+}
