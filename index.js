@@ -67,13 +67,16 @@ channelIds.forEach((channelId) => {
             return;
         }
         console.log(`Feed ${feedUrl} is valid and can be subscribed to`);
-        pubsub.subscribe('superfeedr', feedUrl, (err) => {
+        pubsub.subscribe('superfeedr', feedUrl, (err, body, res) => {
+            console.log(`Received response: ${res.statusCode} ${res.statusMessage}`);
+            console.log(`Response body: ${body}`);
             if (err) {
-                console.error(`Error subscribing to feed ${feedUrl}: ${err}`);
-                return;
+              console.error(`Error subscribing to feed ${feedUrl}: ${err}`);
+              return;
             }
             console.log(`Subscribed to feed: ${feedUrl}`);
-        });
+          });
+          
     });
 });
 
